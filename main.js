@@ -20,8 +20,11 @@ app.use(express.static('public'));
 app.get('/', function(req, res, next) {	
   	res.sendFile("index.html");
 });
+app.get('/register', function(req, res, next) {
+  	res.sendFile(__dirname + "/public/pages/register.html");
+});
 app.get('/ape', function(req, res, next) {
-	fs.writeFile('./example.txt', 'exampel contentaaaawwwwwwwwwwwnnnnneeee', function(){
+	fs.writeFile('./example.txt', 'register', function(){
 		console.log("Apeeeeee!!!");
 		res.send("44");
 	});
