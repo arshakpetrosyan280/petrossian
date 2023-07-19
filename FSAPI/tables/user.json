@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "firstName": "Arshak",
+    "lastname": "Petrosyan",
+    "username": "arshak",
+    "password": "$2b$10$/GouLweNzA9CCJxZO0MfBeztRQ8i/uNmpy2EWdaK9vhD/2xZxa5Pa"
+  },
+  {
+    "id": 2,
+    "firstName": "eeeeee",
+    "lastname": "Petrosyaneeeeeeeeeeeee",
+    "username": "eeeeeeeeeeeeeee",
+    "password": "$2b$10$vSs28gxO3MdnVxMR3fYPY.T6fJYkHVPZtmoM3N4OKAg970v6dMK6G"
+  }
+]

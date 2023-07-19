@@ -1,9 +1,8 @@
-var fs = require('fs');
+
+var User = require(__dirname + '/FSAPI/Users');
 
 var express = require('express');
 var expressSession = require('express-session');
-var LocalStrategy = require('passport-local');
-var passport = require('passport');
 var bcrypt = require('bcrypt');
 
 var app = express();
@@ -17,17 +16,27 @@ var session = {
 app.use(expressSession(session));
 app.use(express.static('public'));
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 app.get('/', function(req, res, next) {	
   	res.sendFile("index.html");
 });
 app.get('/register', function(req, res, next) {
   	res.sendFile(__dirname + "/public/pages/register.html");
 });
+app.post('/register', async function(req, res) {
+	User.userCreate(req.body.firstName, req.body.lastName, req.body.username, await bcrypt.hash(req.body.password, 10));
+  if(req.body.firstName === "ape"){
+    console.log(req.body);
+  }
+  res.send({error: false});
+});
+
 app.get('/ape', function(req, res, next) {
-	fs.writeFile('./example.txt', 'register', function(){
-		console.log("Apeeeeee!!!");
+
+
 		res.send("44");
-	});
   	
 });
 app.listen(port, () => {
