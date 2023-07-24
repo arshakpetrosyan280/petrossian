@@ -1,9 +1,8 @@
-
 var fs = require('fs');
 var file = __dirname + "/tables/user.json";
+var bcrypt = require('bcrypt');
 
-
-var userCreate = async function(firstName, lastName, username, password){
+var userCreate = async function(firstName, lastName, username, password, gender, date, rememberMe){
 	
 	var id = await getTableLastId() +1;
 	var data = await getTableData();
@@ -15,19 +14,22 @@ var userCreate = async function(firstName, lastName, username, password){
 				firstName: firstName,
 				lastname: lastName,
 				username: username,
-				password: password
+				password: password,
+				gender: gender,
+				date: date,
+				rememberMe: rememberMe
 			}
 		], null, 2), function(){
 		
 	});
+	return id;
 }
 
 async function getTableLastId(){
 	var lastId = 0;
 	var data = await getTableData();
-	console.log(data.length);
 	if (data.length !== 0) {
-		var lastId = data[data.length-1].id;
+		lastId = data[data.length-1].id;
 	}
 	return lastId;
 }
@@ -37,4 +39,35 @@ async function getTableData(){
 	return data;
 }
 
+async function usernameIsUniq(username){
+	var data = await getTableData();
+	var isUniq = true;
+	data.forEach((user)=>{
+		
+		if(user.username === username){
+			isUniq = false;
+		}
+		
+	})
+	return isUniq;
+}
+
+async function userIsset(username, password){
+	let users = await getTableData();
+	let status = {};
+	for(let i = 0; i<= users.length - 1; i++){
+		if(users[i].username == username && await bcrypt.compare(password, users[i].password)){
+			status.userIsset = true;
+			status.user = users[i];
+			return status;
+		}else{
+			status.userIsset = false;
+		}
+	}
+	return status;
+}
+
 module.exports.userCreate = userCreate;
+module.exports.usernameIsUniq = usernameIsUniq;
+module.exports.getTableData = getTableData;
+module.exports.userIsset = userIsset;

@@ -1,8 +1,9 @@
-document.querySelector("#rgisterForm").addEventListener("submit", async (event) => {
+console.log('999');
+document.querySelector("#loginForm").addEventListener("submit", async (event) => {
 	event.preventDefault();
-	const data = await serialize(document.querySelector("#rgisterForm"));
+	const data = await serialize(document.querySelector("#loginForm"));
 	console.log(data);
-	fetch("/register", {
+	fetch("/", {
 		method: "post",
 		headers: {
 		    'Accept': 'application/json',
@@ -13,17 +14,11 @@ document.querySelector("#rgisterForm").addEventListener("submit", async (event) 
 	.then(data=>data.json())
 	.then(status=>{
 		if(status.error_code === 1){
-			alert("At least 3 Characters, max. 55 Characters");
-		}else if(status.error_code === 2){
-			alert("At least 3 Characters, max. 55 Characters");
-		}else if(status.error_code === 3){
 			alert("At least 4 Characters, max. 16 Characters, A-Za-z0-9");
-		}else if(status.error_code === 4){
-			alert("Username already exists");
-		}else if(status.error_code === 5){
+		}else if(status.error_code === 2){
 			alert("Password::At least 4 Characters, max. 16 Characters, A-Za-z0-9");
 		}else{
-			window.location.href = "/home";
+			window.location.href = "/home/" + status.id;
 		}
 	});
 });
