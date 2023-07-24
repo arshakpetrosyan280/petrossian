@@ -23,7 +23,7 @@ app.get('/', async function(req, res) {
     if(user === undefined){
       res.sendFile(__dirname + "/public/pages/index.html");
     }else{
-      res.status(200).redirect("home/" + user.id + "/");
+      res.status(200).redirect("/home/" + user.id + "/");
     }
 });
 app.post('/', async function(req, res) { 
