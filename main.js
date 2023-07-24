@@ -13,7 +13,6 @@ var app = express();
 
 
 app.use(express.static('public'));
-app.use(express.static('public/pages'));
 
 
 app.use(express.json());
@@ -24,7 +23,7 @@ app.get('/', async function(req, res) {
     if(user === undefined){
       res.sendFile(__dirname + "/public/pages/index.html");
     }else{
-      res.redirect("/home/" + user.id + "/");
+      res.redirect("home/" + user.id + "/");
     }
 });
 app.post('/', async function(req, res) { 
