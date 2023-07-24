@@ -13,6 +13,7 @@ var app = express();
 
 
 app.use(express.static('public'));
+app.use(express.static('public/pages'));
 
 
 app.use(express.json());
@@ -23,7 +24,7 @@ app.get('/', async function(req, res) {
     if(user === undefined){
       res.sendFile(__dirname + "/public/pages/index.html");
     }else{
-      res.status(200).redirect("/home/" + user.id + "/");
+      return res.redirect("/home/" + user.id + "/");
     }
 });
 app.post('/', async function(req, res) { 
@@ -73,12 +74,15 @@ app.post('/register', async function(req, res) {
 });
 
 app.get('/home/:id', async function(req, res) {
-  console.log(req.params.id);
+  console.log(typeof res.statusCode);
     let user = (await storage.getUser()).user;
     if(user !== undefined){
       res.sendFile(__dirname + "/public/pages/home.html");
     }else{
-      res.redirect("/");
+      return res.redirect("/");
+      if(res.statusCode !== 200){
+        res.redirect(req.get('referer'));
+      }
     }
   	
 });
