@@ -5,6 +5,7 @@ const port = process.env.port || 3001;
 var express = require('express');
 var bcrypt = require('bcrypt');
 
+
 var LS = require(__dirname + '/FSAPI/LS');
 
 var storage = new LS();
@@ -78,11 +79,11 @@ app.get('/home/:id', async function(req, res) {
     let user = (await storage.getUser()).user;
     if(user !== undefined){
       res.sendFile(__dirname + "/public/pages/home.html");
+      // if(res.statusCode !== 200){
+      //   res.redirect('/home/' + 1);
+      // }
     }else{
       return res.redirect("/");
-      if(res.statusCode !== 200){
-        res.redirect(req.get('referer'));
-      }
     }
   	
 });
@@ -90,6 +91,11 @@ app.get('/home/:id', async function(req, res) {
 app.get('/logout', async function(req, res) {
   await storage.unlinkUser();
   res.redirect("/");
+});
+
+app.get('/session-user', async function(req, res) {
+  let user = (await storage.getUser()).user;
+  return res.json(user);
 });
 app.listen(port, () => {
   	console.log(`Example app listening on port ${port}`)

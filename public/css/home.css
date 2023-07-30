@@ -1,0 +1,16 @@
+body{
+	background-color: darkred;
+}
+#top_1{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	padding: 5px 25px;
+	box-sizing: border-box;
+}
+#top_1 a{
+	font-family: sans-serif;
+	color: white;
+	font-weight: 600;
+	text-decoration: none;
+}
