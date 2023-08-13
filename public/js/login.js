@@ -17,7 +17,7 @@ document.querySelector("#loginForm").addEventListener("submit", async (event) =>
 		}else if(status.error_code === 2){
 			alert("Password::At least 4 Characters, max. 16 Characters, A-Za-z0-9");
 		}else{
-			window.location.href = "/home";
+			window.location.href = "/home/" + status.id;
 		}
 	});
 });

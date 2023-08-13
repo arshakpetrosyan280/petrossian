@@ -127,8 +127,12 @@ app.get('/session-user',  async function(req, res) {
     return res.json(user);
 });
 app.get('/cookie-user',  async function(req, res) {
-    let user = JSON.parse(req.cookies.user);
-    return res.json(user);
+    if(req.cookies.user){
+      let user = JSON.parse(req.cookies.user);
+      return res.json(user);
+    }else{
+      return res.json({});
+    }
 });
 
 app.get('/logout', async function(req, res) {
