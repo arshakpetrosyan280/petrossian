@@ -1,16 +1,26 @@
+var express = require('express');
+var app = express();
+
 
 var User = require(__dirname + '/FSAPI/Users');
 const port = process.env.port || 3001;
 
-var express = require('express');
 var bcrypt = require('bcrypt');
 
+const sessions = require('express-session');
+var cookieParser = require('cookie-parser');
 
-var LS = require(__dirname + '/FSAPI/LS');
+// creating 24 hours from milliseconds
+const oneDay = 1000 * 60 * 60 * 24;
 
-var storage = new LS();
-
-var app = express();
+//session middleware
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
+app.use(cookieParser());
 
 
 app.use(express.static('public'));
@@ -21,14 +31,20 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.get('/', async function(req, res) {	
-    let user = (await storage.getUser()).user;
-    if(user === undefined){
-      res.sendFile(__dirname + "/public/pages/index.html");
+    let session=req.session;
+    let user = session.user;
+    console.log('Cookies: ', req.cookies);
+    console.log('Signed Cookies: ', req.signedCookies);
+    if(!user){
+      res.sendFile(__dirname + "/public/pages/main.html");
     }else{
-      return res.redirect("/home/" + user.id + "/");
+      return res.redirect("/home");
     }
+    // res.send("999");
 });
 app.post('/', async function(req, res) { 
+    let session=req.session;
+    
     if(!req.body.username.match("[A-Za-z0-9]{4,16}")){
       return res.json({error_code: 1});
     }else if(!req.body.password.match("[A-Za-z0-9]{4,16}")){
@@ -36,7 +52,9 @@ app.post('/', async function(req, res) {
     }else{
       var userIsset = await User.userIsset(req.body.username, req.body.password);
       if(userIsset.userIsset){
-        storage.setUser(userIsset.user);
+        session.user = userIsset.user;
+        res.cookie('user', JSON.stringify(userIsset.user), {expire: 360000 + Date.now()}); 
+
         return res.json({success: true, id: userIsset.user.id});
       }else{
         return res.json({error_code: 3});
@@ -45,7 +63,8 @@ app.post('/', async function(req, res) {
     }
 });
 app.get('/register', async function(req, res) {
-    let user = (await storage.getUser()).user;
+    let session=req.session;
+    let user = session.user;
     if(user === undefined){
       res.sendFile(__dirname + "/public/pages/register.html");
     }else{
@@ -53,6 +72,7 @@ app.get('/register', async function(req, res) {
     }
 });
 app.post('/register', async function(req, res) {
+  let session=req.session;
   if(!req.body.firstName.match("[a-z]{3,55}")){
     return res.json({error_code: 1});
   }else if(!req.body.lastName.match("[a-z]{3,55}")){
@@ -69,34 +89,41 @@ app.post('/register', async function(req, res) {
       id, 
       ...req.body
     };
-    storage.setUser(newUser);
+    session.user = newUser;
     return res.json({success: true, id: id});
   }
 });
 
-app.get('/home/:id', async function(req, res) {
-  console.log(typeof res.statusCode);
-    let user = (await storage.getUser()).user;
-    if(user !== undefined){
+app.get('/home', async function(req, res) {
+    console.log('Cookies: ', req.cookies);
+    console.log('Signed Cookies: ', req.signedCookies);
+    let session=req.session;
+    let user = session.user;
+    if(user){
       res.sendFile(__dirname + "/public/pages/home.html");
-      // if(res.statusCode !== 200){
-      //   res.redirect('/home/' + 1);
-      // }
     }else{
       return res.redirect("/");
     }
   	
 });
 
-app.get('/logout', async function(req, res) {
-  await storage.unlinkUser();
-  res.redirect("/");
+app.get('/session-user',  async function(req, res) {
+    let session=req.session;
+    let user = session.user;
+    return res.json(user);
+});
+app.get('/cookie-user',  async function(req, res) {
+    let user = JSON.parse(req.cookies.user);
+    return res.json(user);
 });
 
-app.get('/session-user', async function(req, res) {
-  let user = (await storage.getUser()).user;
-  return res.json(user);
+app.get('/logout', async function(req, res) {
+    let session=req.session;
+    session.user = undefined;
+    res.clearCookie('user');
+    res.redirect("/");
 });
+
 app.listen(port, () => {
   	console.log(`Example app listening on port ${port}`)
 })

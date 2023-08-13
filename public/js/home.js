@@ -5,3 +5,9 @@ fetch("/session-user")
 	.then(user => {
 		usernameTag.innerHTML = `${user.firstName} ${user.lastname}`
 	});
+
+fetch("/cookie-user")
+	.then(data=>data.json())
+	.then(user => {
+		console.log(user);
+	});

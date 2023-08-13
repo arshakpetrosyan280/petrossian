@@ -1,4 +1,3 @@
-console.log('999');
 document.querySelector("#loginForm").addEventListener("submit", async (event) => {
 	event.preventDefault();
 	const data = await serialize(document.querySelector("#loginForm"));
@@ -18,7 +17,7 @@ document.querySelector("#loginForm").addEventListener("submit", async (event) =>
 		}else if(status.error_code === 2){
 			alert("Password::At least 4 Characters, max. 16 Characters, A-Za-z0-9");
 		}else{
-			window.location.href = "/home/" + status.id;
+			window.location.href = "/home";
 		}
 	});
 });
@@ -29,3 +28,9 @@ async function serialize(form) {
 	json.rememberMe = document.querySelector("#rememberMe").checked;
 	return json;
 }
+
+fetch("/cookie-user")
+	.then(data=>data.json())
+	.then(user => {
+		console.log(user);
+	});
