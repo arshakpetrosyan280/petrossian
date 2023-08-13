@@ -35,7 +35,8 @@ app.get('/', async function(req, res) {
     let user = session.user;
     console.log('Cookies: ', req.cookies);
     console.log('Signed Cookies: ', req.signedCookies);
-    if(!user || !req.cookies){
+    console.log(user);
+    if(!user && !req.cookies.user){
       res.sendFile(__dirname + "/public/pages/main.html");
     }else{
       return res.redirect("/home");
@@ -67,7 +68,7 @@ app.post('/', async function(req, res) {
 app.get('/register', async function(req, res) {
     let session=req.session;
     let user = session.user;
-    if(!user || !req.cookies){
+    if(!user && !req.cookies.user){
       res.sendFile(__dirname + "/public/pages/register.html");
     }else{
       res.redirect("/home/ + user.id");
@@ -104,7 +105,8 @@ app.get('/home', async function(req, res) {
     console.log('Signed Cookies: ', req.signedCookies);
     let session=req.session;
     let user = session.user;
-    if(user || req.cookies){
+    console.log(user);
+    if(user || req.cookies.user){
       res.sendFile(__dirname + "/public/pages/home.html");
     }else{
       return res.redirect("/");
@@ -117,7 +119,7 @@ app.get('/home/:id', async function(req, res) {
     console.log('Signed Cookies: ', req.signedCookies);
     let session=req.session;
     let user = session.user;
-    if(user || req.cookies){
+    if(user || req.cookies.user){
       res.sendFile(__dirname + "/public/pages/home.html");
     }else{
       return res.redirect("/");
