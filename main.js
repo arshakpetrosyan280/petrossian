@@ -35,7 +35,7 @@ app.get('/', async function(req, res) {
     let user = session.user;
     console.log('Cookies: ', req.cookies);
     console.log('Signed Cookies: ', req.signedCookies);
-    if(!user){
+    if(!user || !req.cookies){
       res.sendFile(__dirname + "/public/pages/main.html");
     }else{
       return res.redirect("/home");
@@ -53,7 +53,9 @@ app.post('/', async function(req, res) {
       var userIsset = await User.userIsset(req.body.username, req.body.password);
       if(userIsset.userIsset){
         session.user = userIsset.user;
-        res.cookie('user', JSON.stringify(userIsset.user), {expire: 360000 + Date.now()}); 
+        if(req.body.rememberMe){
+          res.cookie('user', JSON.stringify(userIsset.user), {expire: 360000 + Date.now()}); 
+        }
 
         return res.json({success: true, id: userIsset.user.id});
       }else{
@@ -65,7 +67,7 @@ app.post('/', async function(req, res) {
 app.get('/register', async function(req, res) {
     let session=req.session;
     let user = session.user;
-    if(user === undefined){
+    if(!user || !req.cookies){
       res.sendFile(__dirname + "/public/pages/register.html");
     }else{
       res.redirect("/home/ + user.id");
@@ -90,6 +92,9 @@ app.post('/register', async function(req, res) {
       ...req.body
     };
     session.user = newUser;
+    if(req.body.rememberMe){
+      res.cookie('user', JSON.stringify(userIsset.user), {expire: 360000 + Date.now()}); 
+    }
     return res.json({success: true, id: id});
   }
 });
@@ -99,7 +104,7 @@ app.get('/home', async function(req, res) {
     console.log('Signed Cookies: ', req.signedCookies);
     let session=req.session;
     let user = session.user;
-    if(user){
+    if(user || req.cookies){
       res.sendFile(__dirname + "/public/pages/home.html");
     }else{
       return res.redirect("/");
@@ -112,7 +117,7 @@ app.get('/home/:id', async function(req, res) {
     console.log('Signed Cookies: ', req.signedCookies);
     let session=req.session;
     let user = session.user;
-    if(user){
+    if(user || req.cookies){
       res.sendFile(__dirname + "/public/pages/home.html");
     }else{
       return res.redirect("/");
