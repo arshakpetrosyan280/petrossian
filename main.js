@@ -107,6 +107,20 @@ app.get('/home', async function(req, res) {
   	
 });
 
+app.get('/home/:id', async function(req, res) {
+    console.log('Cookies: ', req.cookies);
+    console.log('Signed Cookies: ', req.signedCookies);
+    let session=req.session;
+    let user = session.user;
+    if(user){
+      res.sendFile(__dirname + "/public/pages/home.html");
+    }else{
+      return res.redirect("/");
+    }
+    
+});
+
+
 app.get('/session-user',  async function(req, res) {
     let session=req.session;
     let user = session.user;
