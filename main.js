@@ -30,6 +30,8 @@ app.use(express.static('public/pages'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// =====================================================
+
 app.get('/', async function(req, res) {	
     let session=req.session;
     let user = session.user;
