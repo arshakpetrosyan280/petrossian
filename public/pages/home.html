@@ -22,7 +22,14 @@
 			<div id="navbar-user-dropedown">
 				<i class="fa fa-caret-down" id="navbar-user-dropedown-icon"></i>
 				<div id="navbar-user-dropedown-menu">
-					<a href="#">ape</a>
+					<a href="/logout">
+						<i class="fa fa-sign-out"></i>
+						logout
+					</a><br>
+					<a href="/settings">
+						<i class="fa fa-cog"></i>
+						settings
+					</a>
 				</div>
 			</div>
 		</div>
@@ -30,13 +37,26 @@
 	<main>
 		<aside id="sidebar-left">
 			<a href="#" id="username"></a>
-			<a href="/logout">logout</a>
+			<a href="#" id="username">
+				<i class="fa fa-envelope"></i>
+				Messenger
+			</a>
 		</aside>
 		<div id="content">
-			content
+			<div id="content-tools">
+				<div id="content-tools-avatar"></div>
+				<form action="" id="content-tools-form">
+					<input type="text" placeholder="Whats new..." id="post-text-input">
+					<input type="file" id="post-file-input" hidden="">
+					<i class="fa fa-file" id="open-post-file-input"></i>
+					<button type="submit" id="post-submit">Done</button>
+				</form>
+			</div>
 		</div>
 		<aside id="sidebar-right">
-
+			<div id="sidebar-right-friends-block">
+				<span>Friends</span>
+			</div>
 		</aside>
 	</main>
 	<script type="text/javascript" src="/js/home.js"></script>

@@ -28,5 +28,15 @@
     "gender": "male",
     "date": "",
     "rememberMe": false
+  },
+  {
+    "id": 4,
+    "firstName": "test",
+    "lastname": "test",
+    "username": "test",
+    "password": "$2b$10$zACgsihDSwhyqaBqrb9dSu5SOuodnaOyl/BsZF6V66vWI2F4Oy/bK",
+    "gender": "male",
+    "date": "",
+    "rememberMe": false
   }
 ]
