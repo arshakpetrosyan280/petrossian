@@ -2,7 +2,7 @@ document.querySelector("#loginForm").addEventListener("submit", async (event) =>
 	event.preventDefault();
 	const data = await serialize(document.querySelector("#loginForm"));
 	console.log(data);
-	fetch("/", {
+	fetch("/login", {
 		method: "post",
 		headers: {
 		    'Accept': 'application/json',
@@ -17,7 +17,7 @@ document.querySelector("#loginForm").addEventListener("submit", async (event) =>
 		}else if(status.error_code === 2){
 			alert("Password::At least 4 Characters, max. 16 Characters, A-Za-z0-9");
 		}else{
-			window.location.href = "/home/" + status.id;
+			window.location.href = "/";
 		}
 	});
 });

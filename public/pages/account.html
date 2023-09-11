@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Main</title>
-	<link rel="stylesheet" type="text/css" href="/css/index.css">
+	<title>Account</title>
+	<link rel="stylesheet" type="text/css" href="/css/account.css">
 	<link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -18,12 +18,25 @@
 			</form>
 		</div>
 		<div id="nav-right">
-			
+			<div id="navbar-avatar"></div>
+			<div id="navbar-user-dropedown">
+				<i class="fa fa-caret-down" id="navbar-user-dropedown-icon"></i>
+				<div id="navbar-user-dropedown-menu">
+					<a href="/logout">
+						<i class="fa fa-sign-out"></i>
+						logout
+					</a><br>
+					<a href="/settings">
+						<i class="fa fa-cog"></i>
+						settings
+					</a>
+				</div>
+			</div>
 		</div>
 	</nav>
 	<main>
 
 	</main>
-	<script type="text/javascript" src="/js/index.js"></script>
+	<script type="text/javascript" src="/js/account.js"></script>
 </body>
 </html>

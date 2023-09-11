@@ -2,9 +2,9 @@ var fs = require('fs');
 var file = __dirname + "/tables/user.json";
 var bcrypt = require('bcrypt');
 
-var userCreate = async function(firstName, lastName, username, password, gender, date, rememberMe){
+var userCreate = async function(firstName, lastName, username, password, role, gender, date, rememberMe){
 	
-	var id = await getTableLastId() +1;
+	var id = await getTableLastId() +1 || 1;
 	var data = await getTableData();
 	
 	fs.writeFile(file, JSON.stringify([
@@ -15,6 +15,7 @@ var userCreate = async function(firstName, lastName, username, password, gender,
 				lastname: lastName,
 				username: username,
 				password: password,
+				role: role,
 				gender: gender,
 				date: date,
 				rememberMe: rememberMe

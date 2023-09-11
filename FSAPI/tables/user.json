@@ -4,39 +4,10 @@
     "firstName": "Arshak",
     "lastname": "Petrosyan",
     "username": "arshak",
-    "password": "$2b$10$T4.P2FaslEAj4.mu7HVrIeS7HC4AofMhyB6JUiw8U58Nbw9F5D4bG",
+    "password": "$2b$10$Mj0pAlcbCkx1rmISO8aSpe.m6YYUsRsN21NjkMTQ1JGpylKhKRy62",
+    "role": "admin",
     "gender": "male",
-    "date": "",
-    "rememberMe": false
-  },
-  {
-    "id": 2,
-    "firstName": "aaaa",
-    "lastname": "aaaa",
-    "username": "aaaa",
-    "password": "$2b$10$7c5h.NeD20sXotsCTJQ5qO.GmBqW3GEoHPQd/S5BNZMM2NFzE7cMG",
-    "gender": "male",
-    "date": "",
-    "rememberMe": false
-  },
-  {
-    "id": 3,
-    "firstName": "tttt",
-    "lastname": "tttt",
-    "username": "tttt",
-    "password": "$2b$10$iZV/cs4I6tUx3pch9lXIB.bAoO9hEw2TXuYU2tOxMLw9rwOI6PVZ2",
-    "gender": "male",
-    "date": "",
-    "rememberMe": false
-  },
-  {
-    "id": 4,
-    "firstName": "test",
-    "lastname": "test",
-    "username": "test",
-    "password": "$2b$10$zACgsihDSwhyqaBqrb9dSu5SOuodnaOyl/BsZF6V66vWI2F4Oy/bK",
-    "gender": "male",
-    "date": "",
-    "rememberMe": false
+    "date": "1994-06-29",
+    "rememberMe": true
   }
 ]

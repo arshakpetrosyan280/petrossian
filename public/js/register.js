@@ -23,7 +23,7 @@ document.querySelector("#rgisterForm").addEventListener("submit", async (event) 
 		}else if(status.error_code === 5){
 			alert("Password::At least 4 Characters, max. 16 Characters, A-Za-z0-9");
 		}else{
-			window.location.href = "/home";
+			window.location.href = "/";
 		}
 	});
 });

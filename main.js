@@ -32,20 +32,39 @@ app.use(express.urlencoded({extended: true}));
 
 // =====================================================
 
-app.get('/', async function(req, res) {	
+// app.get('/', async function(req, res) {	
+//     let session=req.session;
+//     let user = session.user;
+//     console.log('Cookies: ', req.cookies);
+//     console.log('Signed Cookies: ', req.signedCookies);
+//     console.log(user);
+//     if(!user && !req.cookies.user){
+//       res.sendFile(__dirname + "/public/pages/main.html");
+//     }else{
+//       return res.redirect("/home");
+//     }
+// });
+app.get('/', async function(req, res) { 
+    let session=req.session;
+    let user = session.user;
+    console.log('Cookies: ', req.cookies);
+    console.log('Signed Cookies: ', req.signedCookies);
+    console.log(user);
+    res.sendFile(__dirname + "/public/pages/main.html");
+});
+app.get('/login', async function(req, res) {  
     let session=req.session;
     let user = session.user;
     console.log('Cookies: ', req.cookies);
     console.log('Signed Cookies: ', req.signedCookies);
     console.log(user);
     if(!user && !req.cookies.user){
-      res.sendFile(__dirname + "/public/pages/main.html");
+      res.sendFile(__dirname + "/public/pages/login.html");
     }else{
       return res.redirect("/home");
     }
-    // res.send("999");
 });
-app.post('/', async function(req, res) { 
+app.post('/login', async function(req, res) { 
     let session=req.session;
     
     if(!req.body.username.match("[A-Za-z0-9]{4,16}")){
@@ -89,14 +108,15 @@ app.post('/register', async function(req, res) {
   }else if(!req.body.password.match("[A-Za-z0-9]{4,16}")){
     return res.json({error_code: 5});
   }else{
-    var id = await User.userCreate(req.body.firstName, req.body.lastName, req.body.username, await bcrypt.hash(req.body.password, 10), req.body.gender, req.body.date, req.body.rememberMe);
+    var id = await User.userCreate(req.body.firstName, req.body.lastName, req.body.username, await bcrypt.hash(req.body.password, 10), "user", req.body.gender, req.body.date, req.body.rememberMe);
     var newUser = {
       id, 
+      role: "user",
       ...req.body
     };
     session.user = newUser;
     if(req.body.rememberMe){
-      res.cookie('user', JSON.stringify(userIsset.user), {expire: 360000 + Date.now()}); 
+      res.cookie('user', JSON.stringify(newUser), {expire: 360000 + Date.now()}); 
     }
     return res.json({success: true, id: id});
   }
@@ -140,8 +160,13 @@ app.get('/cookie-user',  async function(req, res) {
       let user = JSON.parse(req.cookies.user);
       return res.json(user);
     }else{
-      return res.json({});
+      return res.json(false);
     }
+});
+
+app.get('/account/:id',  async function(req, res) {
+    console.log(req.params['id']);
+    res.sendFile(__dirname + "/public/pages/account.html");
 });
 
 app.get('/logout', async function(req, res) {
